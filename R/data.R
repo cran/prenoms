@@ -1,0 +1,45 @@
+#' Names of babies in Quebec Between 1980 and 2020
+#'
+#' A database containing the first names of babies born in Quebec
+#' between 1980 and 2020
+#'
+#' @format A database containing  769 890 lines and 4 columns:
+#' \describe{
+#'   \item{year}{Year}
+#'   \item{sex}{F for female and M for male}
+#'   \item{name}{Name}
+#'   \item{n}{Frequency}
+#' }
+#' @importFrom tibble tibble
+#' @source \url{https://www.donneesquebec.ca/recherche/dataset/bec46ea8-7bd1-4d81-b9e0-ea9f3ba0c59d/resource/fe6aea67-c2de-42f9-a21b-2db1b35e2f5f/download/gars1980-2020.csv}
+#' @source \url{https://www.donneesquebec.ca/recherche/dataset/13db2583-427a-4e5f-b679-8532d3df571f/resource/e1f20072-935d-4a92-91c4-61a12fbe687b/download/filles1980-2020.csv}
+#' @examples
+#'   library(dplyr)
+#'   library(ggplot2)
+#'   library(prenoms)
+#'
+#'   # Prenoms des membres de ma famille
+#'   family <- prenoms %>%
+#'   filter(
+#'   name == "Marc-Andre" & sex == "M" |
+#'   name == "Laurent" & sex == "M" |
+#'   name == "Melanie" & sex == "F" |
+#'   name == "Anna" & sex == "F"
+#'   ) %>%
+#'   group_by(name, year, sex) %>%
+#'   summarise(n = sum(n)) %>%
+#'   arrange(year)
+#'
+#'   ggplot(data = family, aes(x = year, y = n, color = name))+
+#'   geom_line()+
+#'   scale_x_continuous( breaks = seq(1980, 2020, by = 5))
+#'
+#'   library(dplyr)
+#'
+#'   # Les 5 prenoms feminins les plus populaires en 2020
+#'   prenoms %>%
+#'   filter(year == 2020 & sex == "F") %>%
+#'   select(year, sex, name, n) %>%
+#'   arrange(desc(n)) %>%
+#'   head(5)
+"prenoms"
